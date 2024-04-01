@@ -4,10 +4,9 @@ from src.AdsPower.operations import click_element, send_element_keys, check_elem
 import time
 
 
-def metamask_import(driver, private):
+def metamask_import(driver, private, password):
     # Это левый сид для импорта в ММ
     seed = 'almost buddy whip witness warfare frown heart thing confirm supply drink tip'.split()
-    password = 'pa&sdhju&ha99&&aaa!!ssword'
 
     # Термсы
     click_element(driver, '//*[@id="onboarding__terms-checkbox"]', 1)

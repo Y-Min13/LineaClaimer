@@ -18,7 +18,7 @@ def claim(profile_list):
             if seed_status > 0:
                 metamask_sign(driver, profile.password)
             if seed_status < 0:
-                metamask_import(driver, profile.key)
+                metamask_import(driver, profile.key, profile.password)
             time.sleep(4)
 
             #           Переключаемся на первую вкладку и открываем какой-либо сайт
