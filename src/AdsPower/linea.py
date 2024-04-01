@@ -66,17 +66,16 @@ def check_window(driver):
             return 'Quest completed!'
         if check_label_exist(driver, 'Validation failed') is True:
             return 'Validation failed'
-        if check_quest_button_exist(driver, '//*[@id="__next"]/div/div/div[3]/div/div[3]/div/button') is True:
-            return -1  # Если кнопка на странице Connect Wallet
-        if check_quest_button_exist(driver, '//*[@id="radix-:ra:"]/div/div[3]/div/div/div/button[2]') is True:
-            return 3  # Если кнопка на странице Verify
-        if check_quest_button_exist(driver, '//*[@id="__next"]/div/div/div[3]/div/div[3]/div/div[2]/button') is True:
-            return 1  # Если кнопка на странице Begin
-        if check_quest_button_exist(driver, '//*[@id="radix-:ra:"]/div/div[2]/div/div/button') is True:
-            return 4  # Если кнопка на странице Continue (после выполнения квеста)
-        if check_quest_button_exist(driver, '//*[@id="radix-:ra:"]/div/div[3]/div/div/div/button') is True:
-            return 2  # Если кнопка на странице Continue
-        time.sleep(5)
+        # Если кнопка на странице Connect Wallet
+        click_quest_button(driver, '//*[@id="__next"]/div/div/div[3]/div/div[3]/div/button', 2)
+        # Если кнопка на странице Verify
+        click_quest_button(driver, '//*[@id="radix-:ra:"]/div/div[3]/div/div/div/button[2]', 2)
+        # Если кнопка на странице Begin
+        click_quest_button(driver, '//*[@id="__next"]/div/div/div[3]/div/div[3]/div/div[2]/button', 2)
+        # Если кнопка на странице Continue (после выполнения квеста)
+        click_quest_button(driver, '//*[@id="radix-:ra:"]/div/div[2]/div/div/button', 2)
+        # Если кнопка на странице Continue
+        click_quest_button(driver, '//*[@id="radix-:ra:"]/div/div[3]/div/div/div/button', 2)
 
 
 def claim_quest(driver, url):
@@ -93,19 +92,6 @@ def claim_quest(driver, url):
 
     while True:
         check_result = check_window(driver)
-        print(check_result)
-        if check_result == 1:
-            click_quest_button(driver, '//*[@id="__next"]/div/div/div[3]/div/div[3]/div/div[2]/button', 5)
-        if check_result == 2:
-            click_quest_button(driver, '//*[@id="radix-:ra:"]/div/div[3]/div/div/div/button', 5)
-        if check_result == 3:
-            click_quest_button(driver, '//*[@id="radix-:ra:"]/div/div[3]/div/div/div/button[2]', 5)
-        if check_result == 4:
-            click_quest_button(driver, '//*[@id="radix-:ra:"]/div/div[2]/div/div/button', 5)
-        if check_result == -1:
-            time.sleep(7)
-            connect_metamask(driver)
-            find_window_by_url(driver, url)
         if check_result == 'Completed':
             break
         if check_result == 'Not Found':
@@ -114,4 +100,3 @@ def claim_quest(driver, url):
             break
         if check_result == 'Validation failed':
             break
-        time.sleep(5)

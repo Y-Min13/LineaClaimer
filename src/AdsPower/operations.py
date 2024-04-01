@@ -94,29 +94,23 @@ def find_window_by_url(driver, url):
 
 
 def click_quest_button(driver, xpath, sleep_time):
-    t1 = time.time()
-    while True:
-        try:
-            if check_quest_button_exist(driver, xpath) is True:
-                #button = driver.find_element(by=By.XPATH, value=xpath)
-                #button.click()
-                #driver.execute_script("arguments[0].click();", button)
-                button = WebDriverWait(driver, 15).until(
-                    EC.element_to_be_clickable((By.XPATH, xpath)))
-                button.click()
-                time.sleep(sleep_time)
-                return
-            else:
-                if time.time() - t1 > settings.quest_time_out:
-                    return
-                time.sleep(5)
-        except:
-            return
+    try:
+        #button = driver.find_element(by=By.XPATH, value=xpath)
+        #button.click()
+        #driver.execute_script("arguments[0].click();", button)
+        button = WebDriverWait(driver, sleep_time).until(
+            EC.element_to_be_clickable((By.XPATH, xpath)))
+        button.click()
+        return
+    except:
+        return
 
 
 def check_quest_button_exist(driver, xpath):
     try:
-        driver.find_element(by=By.XPATH, value=xpath)
+        button = WebDriverWait(driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, xpath)))
+        #driver.find_element(by=By.XPATH, value=xpath)
         return True
     except:
         return False
