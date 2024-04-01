@@ -106,11 +106,9 @@ def click_quest_button(driver, button_text, sleep_time):
         return
 
 
-def check_quest_button_exist(driver, xpath):
+def check_quest_button_exist(driver, button_text):
     try:
-        button = WebDriverWait(driver, 10).until(
-            EC.element_to_be_clickable((By.XPATH, xpath)))
-        #driver.find_element(by=By.XPATH, value=xpath)
+        driver.find_element(by=By.XPATH, value=f"//p[text()='{button_text}']")
         return True
     except:
         return False

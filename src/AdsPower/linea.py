@@ -68,22 +68,38 @@ def check_stop(driver):
     return None
 
 
+def skip(driver):
+    time.sleep(5)
+    while check_quest_button_exist(driver, 'Skip') is True:
+        click_quest_button(driver, 'Skip', 5)
+        if check_label_exist(driver, 'Completed') is True:
+            return 'Completed'
+        if check_label_exist(driver, 'Quest completed!') is True:
+            return 'Quest completed!'
+
+
+
+
 def check_window(driver):
     while True:
-        if check_stop(driver) is not None:
-            break
+        check = check_stop(driver)
+        if check is not None:
+            return check
         # Если кнопка на странице Verify
         click_quest_button(driver, 'Verify', 2)
-        if check_stop(driver) is not None:
-            break
+        check = check_stop(driver)
+        if check is not None:
+            return check
         # Если кнопка на странице Begin
         click_quest_button(driver, 'Begin', 2)
-        if check_stop(driver) is not None:
-            break
+        check = check_stop(driver)
+        if check is not None:
+            return check
         # Если кнопка на странице Continue
         click_quest_button(driver, 'Continue', 2)
-        if check_stop(driver) is not None:
-            break
+        check = check_stop(driver)
+        if check is not None:
+            return check
 
 
 def claim_quest(driver, url):
@@ -98,4 +114,12 @@ def claim_quest(driver, url):
 
     find_window_by_url(driver, url)
 
-    check_window(driver)
+    check = check_window(driver)
+    if check == 'Completed':
+        print('Квест уже выполнен')
+    if check == 'Quest completed!':
+        print('Квест успешно выполнен')
+    if check == 'Validation failed' or check == 'No matching transactions found':
+        result = skip(driver)
+        print(result)
+
