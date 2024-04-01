@@ -5,6 +5,8 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 import time
 
 
@@ -33,6 +35,7 @@ def configure_profile(response_open):
     service = Service(executable_path=chrome_driver)
     chrome_options = Options()
     chrome_options.add_argument("--disable-popup-blocking")
+    chrome_options.add_extension('metamask-chrome-11.13.1.crx')
     chrome_options.add_experimental_option("debuggerAddress", response_open["data"]["ws"]["selenium"])
     driver = webdriver.Chrome(service=service, options=chrome_options)
     return driver
@@ -93,15 +96,22 @@ def find_window_by_url(driver, url):
 def click_quest_button(driver, xpath, sleep_time):
     t1 = time.time()
     while True:
-        if check_quest_button_exist(driver, xpath) is True:
-            button = driver.find_element(by=By.XPATH, value=xpath)
-            driver.execute_script("arguments[0].click();", button)
-            time.sleep(sleep_time)
-            return
-        else:
-            if time.time() - t1 > settings.quest_time_out:
+        try:
+            if check_quest_button_exist(driver, xpath) is True:
+                #button = driver.find_element(by=By.XPATH, value=xpath)
+                #button.click()
+                #driver.execute_script("arguments[0].click();", button)
+                button = WebDriverWait(driver, 15).until(
+                    EC.element_to_be_clickable((By.XPATH, xpath)))
+                button.click()
+                time.sleep(sleep_time)
                 return
-            time.sleep(5)
+            else:
+                if time.time() - t1 > settings.quest_time_out:
+                    return
+                time.sleep(5)
+        except:
+            return
 
 
 def check_quest_button_exist(driver, xpath):

@@ -24,9 +24,10 @@ def claim(profile_list):
             #           Переключаемся на первую вкладку и открываем какой-либо сайт
             find_window_by_url(driver, '127.0.0.1')
             driver.get('https://www.youtube.com/')
-
+            time.sleep(2)
             #           Переходим на вкладку Linea-Park
             find_window_by_url(driver, 'https://layer3.xyz/linea-park')
+            time.sleep(4)
             #open_linea_park(driver)
 
             #           Коннект к Layer3
@@ -47,6 +48,7 @@ def claim(profile_list):
             claim_quest(driver, 'https://layer3.xyz/quests/lineas-knobs-bilinear')
             claim_quest(driver, 'https://layer3.xyz/quests/imaginairynfts-lineas-artisan-trail')
 
+            time.sleep(10)
         except Exception as ex:
             print(f'Ошибка в профиле {profile.profile_num}  |  {ex}')
         try:

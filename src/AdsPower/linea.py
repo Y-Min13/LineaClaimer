@@ -50,9 +50,10 @@ def sign_in(driver):
 def connect_metamask(driver):
     status = get_metamask_window(driver, 'notification.html')
     if status is False:
-        return
+        return False
     click_element(driver, '//*[@id="app-content"]/div/div/div/div[3]/div[2]/footer/button[2]', 3)
     click_element(driver, '//*[@id="app-content"]/div/div/div/div[3]/div[2]/footer/button[2]', 3)
+    return True
 
 
 def check_window(driver):
@@ -84,19 +85,21 @@ def claim_quest(driver, url):
     time.sleep(10)
     window_count2 = len(driver.window_handles)
     if window_count2 - window_count1 > 0:
-        time.sleep(7)
+        print('Еще один коннект')
+        time.sleep(5)
         connect_metamask(driver)
 
     find_window_by_url(driver, url)
 
     while True:
         check_result = check_window(driver)
+        print(check_result)
         if check_result == 1:
             click_quest_button(driver, '//*[@id="__next"]/div/div/div[3]/div/div[3]/div/div[2]/button', 5)
         if check_result == 2:
-            click_quest_button(driver, '//*[@id="radix-:ra:"]/div/div[3]/div/div/div/button/span', 5)
+            click_quest_button(driver, '//*[@id="radix-:ra:"]/div/div[3]/div/div/div/button', 5)
         if check_result == 3:
-            click_quest_button(driver, '//*[@id="radix-:ra:"]/div/div[3]/div/div/div/button[2]/span', 5)
+            click_quest_button(driver, '//*[@id="radix-:ra:"]/div/div[3]/div/div/div/button[2]', 5)
         if check_result == 4:
             click_quest_button(driver, '//*[@id="radix-:ra:"]/div/div[2]/div/div/button', 5)
         if check_result == -1:
