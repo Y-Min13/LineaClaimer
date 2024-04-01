@@ -1,5 +1,4 @@
 import re
-from selenium.webdriver.common.action_chains import ActionChains
 from src.AdsPower.operations import click_element, send_element_keys, check_element_exist
 import time
 
@@ -56,12 +55,12 @@ def metamask_sign(driver, password):
     click_element(driver, '//*[@id="app-content"]/div/div[2]/div/div/button', 4)
 
 
-def get_metamask_window(driver):
+def get_metamask_window(driver, path):
     all_windows = driver.window_handles
     # Ищем вкладку по url
     for i in range(len(all_windows)):
         driver.switch_to.window(driver.window_handles[i])
-        pattern = r'chrome-extension://[a-z]{32}/home.html'
+        pattern = r'chrome-extension://[a-z]{32}/'+path
         url = driver.current_url
         if re.search(pattern, url) is not None:
             return i
@@ -69,7 +68,7 @@ def get_metamask_window(driver):
 
 
 def metamask_check_seed(driver):
-    get_metamask_window(driver)
+    get_metamask_window(driver, 'home.html')
     # Проверяем введена ли сид фраза
     while True:
         if check_element_exist(driver, '//*[@id="onboarding__terms-checkbox"]') is True:
