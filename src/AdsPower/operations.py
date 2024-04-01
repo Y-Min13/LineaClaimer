@@ -93,13 +93,13 @@ def find_window_by_url(driver, url):
     return False
 
 
-def click_quest_button(driver, xpath, sleep_time):
+def click_quest_button(driver, button_text, sleep_time):
     try:
         #button = driver.find_element(by=By.XPATH, value=xpath)
         #button.click()
         #driver.execute_script("arguments[0].click();", button)
         button = WebDriverWait(driver, sleep_time).until(
-            EC.element_to_be_clickable((By.XPATH, xpath)))
+            EC.element_to_be_clickable((By.XPATH, f"//button[text()='{button_text}']")))
         button.click()
         return
     except:

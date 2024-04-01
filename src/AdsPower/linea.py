@@ -56,26 +56,34 @@ def connect_metamask(driver):
     return True
 
 
+def check_stop(driver):
+    if check_label_exist(driver, 'No matching transactions found') is True:
+        return 'Not Found'
+    if check_label_exist(driver, 'Completed') is True:
+        return 'Completed'
+    if check_label_exist(driver, 'Quest completed!') is True:
+        return 'Quest completed!'
+    if check_label_exist(driver, 'Validation failed') is True:
+        return 'Validation failed'
+    return None
+
+
 def check_window(driver):
     while True:
-        if check_label_exist(driver, 'No matching transactions found') is True:
-            return 'Not Found'
-        if check_label_exist(driver, 'Completed') is True:
-            return 'Completed'
-        if check_label_exist(driver, 'Quest completed!') is True:
-            return 'Quest completed!'
-        if check_label_exist(driver, 'Validation failed') is True:
-            return 'Validation failed'
-        # Если кнопка на странице Connect Wallet
-        click_quest_button(driver, '//*[@id="__next"]/div/div/div[3]/div/div[3]/div/button', 2)
+        if check_stop(driver) is not None:
+            break
         # Если кнопка на странице Verify
-        click_quest_button(driver, '//*[@id="radix-:ra:"]/div/div[3]/div/div/div/button[2]', 2)
+        click_quest_button(driver, 'Verify', 2)
+        if check_stop(driver) is not None:
+            break
         # Если кнопка на странице Begin
-        click_quest_button(driver, '//*[@id="__next"]/div/div/div[3]/div/div[3]/div/div[2]/button', 2)
-        # Если кнопка на странице Continue (после выполнения квеста)
-        click_quest_button(driver, '//*[@id="radix-:ra:"]/div/div[2]/div/div/button', 2)
+        click_quest_button(driver, 'Begin', 2)
+        if check_stop(driver) is not None:
+            break
         # Если кнопка на странице Continue
-        click_quest_button(driver, '//*[@id="radix-:ra:"]/div/div[3]/div/div/div/button', 2)
+        click_quest_button(driver, 'Continue', 2)
+        if check_stop(driver) is not None:
+            break
 
 
 def claim_quest(driver, url):
@@ -90,13 +98,4 @@ def claim_quest(driver, url):
 
     find_window_by_url(driver, url)
 
-    while True:
-        check_result = check_window(driver)
-        if check_result == 'Completed':
-            break
-        if check_result == 'Not Found':
-            break
-        if check_result == 'Quest completed!':
-            break
-        if check_result == 'Validation failed':
-            break
+    check_window(driver)
