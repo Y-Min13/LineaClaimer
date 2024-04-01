@@ -35,16 +35,14 @@ def metamask_import(driver, private, password):
 
     click_element(driver, '//*[@id="app-content"]/div/div[2]/div/div/div/div[2]/button', 3)
     click_element(driver, '//*[@id="app-content"]/div/div[2]/div/div/div/div[2]/button', 3)
-    click_element(driver, '//*[@id="app-content"]/div/div[2]/div/div/div/div[2]/button', 3)
+    click_element(driver, '//*[@id="app-content"]/div/div[2]/div/div/div/div[2]/button', 10)
 
-    actions = ActionChains(driver)
-    actions.move_by_offset(100, 100).perform()
-    time.sleep(10)
-    actions.click().perform()
-    time.sleep(2)
+    click_element(driver, '//*[@id="popover-content"]/div/div/section/div[1]/div/button/span', 4)
+
+    click_element(driver, '//*[@id="app-content"]/div/div[2]/div/div[2]/button', 3)
 
     # Импорт приватника
-    click_element(driver, '//*[@id="app-content"]/div/div[2]/div/button/span[1]/span', 3)
+    #click_element(driver, '//*[@id="app-content"]/div/div[2]/div/button/span[1]/span', 3)
     click_element(driver, '/html/body/div[3]/div[3]/div/section/div[4]/button', 1)
     click_element(driver, '/html/body/div[3]/div[3]/div/section/div[2]/div[2]/button', 1)
     send_element_keys(driver, '//*[@id="private-key-box"]', private, 1)

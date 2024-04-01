@@ -25,8 +25,9 @@ def claim(profile_list):
             find_window_by_url(driver, '127.0.0.1')
             driver.get('https://www.youtube.com/')
 
-            #           Открываем Linea-Park в новой вкладке
-            open_linea_park(driver)
+            #           Переходим на вкладку Linea-Park
+            find_window_by_url(driver, 'https://layer3.xyz/linea-park')
+            #open_linea_park(driver)
 
             #           Коннект к Layer3
             linea_park_sign = check_sign(driver)
@@ -37,7 +38,6 @@ def claim(profile_list):
                 sign_in(driver)
 
             find_window_by_url(driver, 'https://layer3.xyz/linea-park')
-
             #       Квесты
             claim_quest(driver, 'https://layer3.xyz/quests/linea-zace')
             claim_quest(driver, 'https://layer3.xyz/quests/linea-alienswap')

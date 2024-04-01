@@ -62,6 +62,8 @@ def check_window(driver):
             return 'Completed'
         if check_label_exist(driver, 'Quest completed!') is True:
             return 'Quest completed!'
+        if check_label_exist(driver, 'Validation failed') is True:
+            return 'Validation failed'
         if check_quest_button_exist(driver, '//*[@id="__next"]/div/div/div[3]/div/div[3]/div/button') is True:
             return -1  # Если кнопка на странице Connect Wallet
         if check_quest_button_exist(driver, '//*[@id="radix-:ra:"]/div/div[3]/div/div/div/button[2]') is True:
@@ -76,13 +78,12 @@ def check_window(driver):
 
 
 def claim_quest(driver, url):
-    #print(f'Квест   {url}')
     window_count1 = len(driver.window_handles)
-    driver.execute_script(f"window.open('{url}', '_blank')")
+    driver.get(url)
     time.sleep(10)
     window_count2 = len(driver.window_handles)
-    if window_count2 - window_count1 == 2:
-        time.sleep(3)
+    if window_count2 - window_count1 == 1:
+        time.sleep(5)
         connect_metamask(driver)
 
     find_window_by_url(driver, url)
@@ -101,16 +102,11 @@ def claim_quest(driver, url):
             connect_metamask(driver)
             find_window_by_url(driver, url)
         if check_result == 'Completed':
-            #print('Квест уже выполнен и заклеймлен!')
             break
         if check_result == 'Not Found':
-            #print('Квест не выполнен, клейм недоступен!')
             break
         if check_result == 'Quest completed!':
-            #print('Квест успешно выполнен!')
+            break
+        if check_result == 'Validation failed':
             break
         time.sleep(5)
-
-    if settings.close_quest_enable == 1:
-        driver.close()
-        find_window_by_url(driver, 'https://layer3.xyz/linea-park')
