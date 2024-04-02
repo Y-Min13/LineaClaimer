@@ -64,7 +64,7 @@ def check_stop(driver):
     if check_label_exist(driver, 'Quest completed!') is True:
         return 'Quest completed!'
     if check_label_exist(driver, 'Validation failed') is True:
-        return 'Validation failed'
+        return 'No matching transactions found'
     if check_label_exist(driver, 'Discord account is not linked!') is True:
         return 'No matching transactions found'
     if check_label_exist(driver, 'Could not find membership!') is True:
@@ -74,11 +74,13 @@ def check_stop(driver):
 
 def skip(driver):
     time.sleep(3)
-    click_quest_button(driver, 'Continue', 3)
-    time.sleep(5)
-    click_quest_button(driver, 'Skip', 5)
+    print('Поиск кнопки Скипа')
+    click_quest_button(driver, 'Continue', 10)
+    time.sleep(3)
+    click_quest_button(driver, 'Skip', 10)
+    time.sleep(3)
     while check_quest_button_exist(driver, 'Skip') is True:
-        click_quest_button(driver, 'Skip', 5)
+        click_quest_button(driver, 'Skip', 10)
         if check_label_exist(driver, 'Completed') is True:
             return 'Completed'
         if check_label_exist(driver, 'Quest completed!') is True:
@@ -108,6 +110,7 @@ def check_window(driver):
 
 
 def claim_quest(driver, url):
+    print(f'Квест: {url}')
     window_count1 = len(driver.window_handles)
     driver.get(url)
     time.sleep(10)
@@ -124,10 +127,8 @@ def claim_quest(driver, url):
         print('Квест уже выполнен')
     if check == 'Quest completed!':
         print('Квест успешно выполнен')
-    if check == 'Validation failed':
-        result = skip(driver)
-        print(result)
     if check == 'No matching transactions found':
+        print('Условия не выполнены')
         result = skip(driver)
         print(result)
 
