@@ -65,10 +65,14 @@ def check_stop(driver):
         return 'Quest completed!'
     if check_label_exist(driver, 'Validation failed') is True:
         return 'Validation failed'
+    if check_label_exist(driver, 'Discord account is not linked!') is True:
+        return 'No matching transactions found'
     return None
 
 
 def skip(driver):
+    time.sleep(3)
+    click_quest_button(driver, 'Continue', 3)
     time.sleep(5)
     click_quest_button(driver, 'Skip', 5)
     while check_quest_button_exist(driver, 'Skip') is True:
