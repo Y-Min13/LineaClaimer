@@ -67,6 +67,8 @@ def check_stop(driver):
         return 'Validation failed'
     if check_label_exist(driver, 'Discord account is not linked!') is True:
         return 'No matching transactions found'
+    if check_label_exist(driver, 'Could not find membership!') is True:
+        return 'No matching transactions found'
     return None
 
 
