@@ -1,7 +1,7 @@
 import time
 import settings
 from src.AdsPower.metamask import metamask_import, metamask_sign, metamask_check_seed
-from src.AdsPower.linea import sign_in, check_sign, log_out, open_linea_park, claim_quest
+from src.AdsPower.linea import sign_in, check_sign, log_out, open_linea_park, claim_quest, quiz1, quiz2, quiz3, quiz4
 from src.AdsPower.operations import open_profile, close_profile, configure_profile, find_window_by_url, close_all_tabs
 
 
@@ -39,10 +39,17 @@ def claim(profile_list):
                 if linea_park_sign > 0:
                     log_out(driver)
                     sign_in(driver)
-                    
 
             find_window_by_url(driver, 'https://layer3.xyz')
-            #       Квесты
+
+            # QUIZ Квесты
+            if settings.quiz_quests_enable == 1:
+                quiz1(driver, profile)
+                quiz2(driver, profile)
+                quiz3(driver, profile)
+                quiz4(driver, profile)
+
+            # Остальные Квесты
             claim_quest(driver, profile, 'https://layer3.xyz/quests/linea-zace')
             claim_quest(driver, profile, 'https://layer3.xyz/quests/linea-alienswap')
             claim_quest(driver, profile, 'https://layer3.xyz/quests/linea-micro3')

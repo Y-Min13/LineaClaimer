@@ -117,7 +117,9 @@ def check_quest_button_exist(driver, button_text):
 
 def check_label_exist(driver, text):
     try:
-        driver.find_element(by=By.XPATH, value=f"//p[text()='{text}']")
+        elem = driver.find_element(by=By.XPATH, value=f"//p[text()='{text}']")
+        if 'body text-3xs text-content-primary' == elem.get_attribute("class"):
+            return False
         return True
     except:
         return False
@@ -134,3 +136,29 @@ def click_continue(driver, sleep_time):
         return
     except:
         return
+
+
+def click_quiz_button(driver, xpath, sleep_time):
+    try:
+        button = WebDriverWait(driver, sleep_time).until(
+            EC.element_to_be_clickable((By.XPATH, xpath)))
+        button.click()
+        return
+    except:
+        return
+
+
+def get_quest_button_by_xpath(driver, xpath):
+    try:
+        driver.find_element(by=By.XPATH, value=xpath)
+        return True
+    except:
+        return False
+
+
+def get_h2_by_text(driver, text):
+    try:
+        driver.find_element(by=By.XPATH, value=f"//h2[text()='{text}']")
+        return True
+    except:
+        return False
