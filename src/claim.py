@@ -13,31 +13,33 @@ def claim(profile_list):
             driver = configure_profile(resp)
             time.sleep(5)
 
-            #           Работа с MetaMask
-            # seed_status = metamask_check_seed(driver)
-            # if seed_status > 0:
-            #     metamask_sign(driver, profile.password)
-            # if seed_status < 0:
-            #     metamask_import(driver, profile.key, profile.password)
-            time.sleep(4)
+            if settings.switch_mm == 1:
 
-            #           Переключаемся на первую вкладку и открываем какой-либо сайт
-            # find_window_by_url(driver, '127.0.0.1')
-            # driver.get('https://www.youtube.com/')
-            # time.sleep(2)
-            # #           Переходим на вкладку Linea-Park
-            # find_window_by_url(driver, 'https://layer3.xyz/linea-park')
-            # time.sleep(4)
-            #open_linea_park(driver)
+                #           Работа с MetaMask
+                seed_status = metamask_check_seed(driver)
+                if seed_status > 0:
+                    metamask_sign(driver, profile.password)
+                if seed_status < 0:
+                    metamask_import(driver, profile.key, profile.password)
+                time.sleep(4)
 
-            # #           Коннект к Layer3
-            # linea_park_sign = check_sign(driver)
-            # if linea_park_sign < 0:
-            #     sign_in(driver)
-            # if linea_park_sign > 0:
-            #     log_out(driver)
-            #     sign_in(driver)
-            #
+                #           Переключаемся на первую вкладку и открываем какой-либо сайт
+                find_window_by_url(driver, '127.0.0.1')
+                driver.get('https://www.youtube.com/')
+                time.sleep(2)
+                #           Переходим на вкладку Linea-Park
+                find_window_by_url(driver, 'https://layer3.xyz/linea-park')
+                time.sleep(4)
+                open_linea_park(driver)
+
+                # #           Коннект к Layer3
+                linea_park_sign = check_sign(driver)
+                if linea_park_sign < 0:
+                    sign_in(driver)
+                if linea_park_sign > 0:
+                    log_out(driver)
+                    sign_in(driver)
+                    
 
             find_window_by_url(driver, 'https://layer3.xyz')
             #       Квесты
