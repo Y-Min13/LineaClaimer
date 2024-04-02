@@ -101,6 +101,7 @@ def click_quest_button(driver, button_text, sleep_time):
         button = WebDriverWait(driver, sleep_time).until(
             EC.element_to_be_clickable((By.XPATH, f"//button[text()='{button_text}']")))
         button.click()
+        time.sleep(sleep_time)
         return
     except:
         return
@@ -120,3 +121,16 @@ def check_label_exist(driver, text):
         return True
     except:
         return False
+
+
+def click_continue(driver, sleep_time):
+    try:
+        # button = driver.find_element(by=By.XPATH, value=xpath)
+        # button.click()
+        # driver.execute_script("arguments[0].click();", button)
+        button = WebDriverWait(driver, sleep_time).until(
+            EC.element_to_be_clickable((By.XPATH, '//*[@id="radix-:ra:"]/div/div[3]/div/div/div/button')))
+        button.click()
+        return
+    except:
+        return

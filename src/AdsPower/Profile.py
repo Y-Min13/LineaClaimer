@@ -1,3 +1,6 @@
+from web3 import Web3
+w3 = Web3()
+
 
 class Profile(object):
 
@@ -6,3 +9,4 @@ class Profile(object):
         self.ads_id = ads_id
         self.key = key
         self.password = password
+        self.address = w3.eth.account.from_key(key).address

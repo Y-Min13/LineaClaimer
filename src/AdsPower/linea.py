@@ -1,5 +1,5 @@
 import time
-from src.AdsPower.operations import (get_last_window, click_quest_button, check_quest_button_exist,
+from src.AdsPower.operations import (get_last_window, click_quest_button, check_quest_button_exist, click_continue,
                                      click_element, check_element_exist, find_window_by_url, check_label_exist)
 from src.AdsPower.metamask import get_metamask_window
 
@@ -56,8 +56,10 @@ def connect_metamask(driver):
     return True
 
 
-def check_stop(driver):
+def check_stop(driver, profile):
     if check_label_exist(driver, 'No matching transactions found') is True:
+        return 'No matching transactions found'
+    if check_label_exist(driver, f'No token transfers matching the criteria found for {profile.address}.') is True:
         return 'No matching transactions found'
     if check_label_exist(driver, 'Completed') is True:
         return 'Completed'
@@ -72,44 +74,42 @@ def check_stop(driver):
     return None
 
 
-def skip(driver):
+def skip(driver, profile):
     time.sleep(3)
     print('Поиск кнопки Скипа')
-    click_quest_button(driver, 'Continue', 10)
+    click_continue(driver, 10)
     time.sleep(3)
-    click_quest_button(driver, 'Skip', 10)
+    click_quest_button(driver, 'Skip', 12)
     time.sleep(3)
-    while check_quest_button_exist(driver, 'Skip') is True:
-        click_quest_button(driver, 'Skip', 10)
-        if check_label_exist(driver, 'Completed') is True:
-            return 'Completed'
-        if check_label_exist(driver, 'Quest completed!') is True:
-            return 'Quest completed!'
+    check_stop(driver, profile)
+    click_quest_button(driver, 'Skip', 5)
+    time.sleep(3)
+    click_quest_button(driver, 'Skip', 5)
 
 
-def check_window(driver):
+def check_window(driver, profile):
     while True:
-        check = check_stop(driver)
+        check = check_stop(driver, profile)
         if check is not None:
             return check
         # Если кнопка на странице Verify
         click_quest_button(driver, 'Verify', 2)
-        check = check_stop(driver)
+        check = check_stop(driver, profile)
         if check is not None:
             return check
         # Если кнопка на странице Begin
         click_quest_button(driver, 'Begin', 2)
-        check = check_stop(driver)
+        check = check_stop(driver, profile)
         if check is not None:
             return check
         # Если кнопка на странице Continue
         click_quest_button(driver, 'Continue', 2)
-        check = check_stop(driver)
+        check = check_stop(driver, profile)
         if check is not None:
             return check
 
 
-def claim_quest(driver, url):
+def claim_quest(driver, profile, url):
     print(f'Квест: {url}')
     window_count1 = len(driver.window_handles)
     driver.get(url)
@@ -122,13 +122,14 @@ def claim_quest(driver, url):
 
     find_window_by_url(driver, url)
 
-    check = check_window(driver)
+    check = check_window(driver, profile)
+    print(f'check = {check}')
     if check == 'Completed':
         print('Квест уже выполнен')
     if check == 'Quest completed!':
         print('Квест успешно выполнен')
     if check == 'No matching transactions found':
         print('Условия не выполнены')
-        result = skip(driver)
-        print(result)
-
+        skip(driver, profile)
+    print('Идем дальше')
+    time.sleep(6)
