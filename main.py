@@ -3,6 +3,7 @@ from src.helper import read_profiles
 from threading import Thread
 import numpy
 import settings
+import time
 
 
 profiles = read_profiles()
