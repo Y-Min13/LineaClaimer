@@ -14,5 +14,8 @@ for thread_profiles_list in chunks:
     threads.append(Thread(target=claim, args=(thread_profiles_list,)))
 for th in threads:
     th.start()
+    time.sleep(2)
+
 for th in threads:
     th.join()
+    time.sleep(2)
